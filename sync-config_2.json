@@ -1,0 +1,7 @@
+{
+    "username": "nvidia",
+    "password": "nvidia",
+    "host": "10.0.10.241",
+    "localPath": "/home/sbhal/workspace/be-fruitful/edge/built",
+    "remotePath": "/home/nvidia/workspace/edge/built"
+}

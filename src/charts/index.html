@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="utf-8" name="viewport" content="width=device-width" />
+    <title>
+        Edge Node
+    </title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Socket.io import the module I have in the project -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <!-- Javascript Highcharts import the file directly from your server -->
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+    <script src="http://code.highcharts.com/modules/exporting.js"></script>
+    <script src="http://code.highcharts.com/modules/offline-exporting.js"></script>
+    <script src="https://highcharts.github.io/export-csv/export-csv.js"></script>
+</head>
+
+<body>
+    <!--  'll have the div where the graph. I tell it that the width of the
+         screen is 100% and the height is 400px -->
+    <div class="container">
+        <div id="chart5" class="fixed" style="width:50%; height:200px;"></div>
+        <div id="chart2" class="flexible" style="flex-grow:1; height:200px;"></div>
+    </div>
+    <div class="container">
+        <div id="chart6" class="fixed" style="width:50%; height:200px;"></div>
+        <div id="chart4" class="flexible" style="flex-grow:1; height:200px;"></div>
+    </div>
+    <div class="container" style="display:none">
+        <div id="chart1" class="fixed" style=" width:50%; height:200px;"></div>
+        <div id="chart3" class="flexible" style="flex-grow:1; height:200px;"></div>
+    </div>
+    <form><input type="button" id="downloadAll" value="Download All">
+    </form>
+    <script src="/client.js"></script>
+</body>
+
+</html>
