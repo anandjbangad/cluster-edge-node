@@ -1,8 +1,8 @@
 import neigh = require("../neighbors.js");
-import os = require("../../../common/utils/os.js");
+import os = require("../../../cluster-common/common/utils/os")
 import WebSocket = require("ws");
 import ipaddr = require('ipaddr.js');
-import * as itf from "../../../common/interfaces.d"
+import * as itf from "../../../cluster-common/common/interfaces"
 import amqp = require('amqplib');
 import MA = require('moving-average');
 import SA = require('simple-average');

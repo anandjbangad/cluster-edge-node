@@ -46,12 +46,12 @@ if (!process.env.UUID) {
 
 import { cleandb } from "./storage.js";
 cleandb();
-import { startOSMonitoring } from "./../../common/utils/os";
+import { startOSMonitoring } from "../../cluster-common/common/utils/os";
 //import { startMonitoringQueueStats } from "./../../common/utils/ms_stats";
 
 import { startCharting } from "./charts/server"
 
-import mdns = require("mdns");
+
 import Chairo = require("chairo");
 import Hapi = require("hapi");
 import { edgeStartConsuming, establishRMBLocalConnection, startPublishingLocalTopics } from "./ws/edge_server.js"
@@ -63,7 +63,7 @@ server.connection({
   host: process.env.REST_HOST,
   port: process.env.REST_PORT
 });
-import { startAnnouncements } from "./mDNS.js";
+
 import rest_service = require("./plugins/rest/service.js");
 import core_service = require("./plugins/core/service.js");
 import offload_service = require("./plugins/offload/service.js");
@@ -156,7 +156,6 @@ server.register({ register: Chairo, options: { timeout: 10 * 60 * 1000 } }, func
       server.start(function (err) {
         if (err) throw err;
         winston.info("Seneca Server is running at", server.info.uri);
-        //startAnnouncements();
 
         // start cloud client and edge server after middleware is initialized
         //here cloud init used to be

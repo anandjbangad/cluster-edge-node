@@ -11,10 +11,9 @@ if (!process.env.UUID) {
 
 import { cleandb } from "./storage.js";
 cleandb();
-import { startOSMonitoring } from "./../../common/utils/os.js";
+import { startOSMonitoring } from "../../cluster-common/common/utils/os";
 startOSMonitoring();
 
-import mdns = require("mdns");
 import Chairo = require("chairo");
 import Hapi = require("hapi");
 

@@ -1,14 +1,14 @@
 import winston = require("winston")
 
 import { Device, NodeList } from "../../storage.js";
-import os = require("../../../../common/utils/os.js");
+import os = require("../../../../cluster-common/common/utils/os");
 
 
 import { cloudSendDataAmqp } from "../../ws/cloud_client.js";
 import fs = require("fs");
 import neigh = require("../../neighbors.js");
 import Tesseract = require("tesseract.js");
-import * as itf from "../../../../common/interfaces.d"
+import * as itf from "../../../../cluster-common/common/interfaces"
 import { algoRoundRobin } from "./algo_round_robin"
 import { algoTopsis } from "./algo_topsis"
 //define array to store neighbors

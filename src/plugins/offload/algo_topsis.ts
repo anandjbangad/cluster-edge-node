@@ -1,9 +1,9 @@
 import neigh = require("../../neighbors.js");
 import { getCldTopics } from "../../ws/cloud_client"
 import { noOfActiveCtx, getNodeMsgLatency } from "../../ws/edge_server"
-import * as itf from "../../../../common/interfaces.d"
-import * as os from "../../../../common/utils/os"
-//import * as amqpStats from "../../../../common/utils/ms_stats"
+import * as itf from "../../../../cluster-common/common/interfaces"
+import * as os from "../../../../cluster-common/common/utils/os"
+import * as amqpStats from "../../../../cluster-common/common/utils/ms_stats"
 import math = require('mathjs');
 import amqp = require('amqplib');
 import winston = require("winston")

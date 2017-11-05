@@ -1,7 +1,7 @@
 import fs = require('fs');
 import Tesseract = require('tesseract.js')
-import os = require("../../../../common/utils/os.js");
-import * as itf from "../../../../common/interfaces.d"
+import os = require("../../../../cluster-common/common/utils/os");
+import * as itf from "../../../../cluster-common/common/interfaces"
 let exec = require('child_process').exec;
 import winston = require("winston")
 export function vision(globalCtx) {

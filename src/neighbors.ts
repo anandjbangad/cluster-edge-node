@@ -1,7 +1,7 @@
 import ping = require('ping');
 import WebSocket = require('ws');
 import ipaddr = require('ipaddr.js');
-import * as itf from "../../common/interfaces.d"
+import * as itf from "../../cluster-common/common/interfaces"
 import amqp = require('amqplib');
 import MA = require('moving-average');
 
