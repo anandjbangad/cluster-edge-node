@@ -7,6 +7,7 @@ import * as amqpStats from "../../../../cluster-common/common/utils/ms_stats"
 import math = require('mathjs');
 import amqp = require('amqplib');
 import winston = require("winston")
+import Config from "../../config";
 
 let amqpPython: any = {};
 let socketQueueId: number = 0;
@@ -14,14 +15,14 @@ let socketQueue: any = {};
 export function algoTopsisInit() {
     return new Promise(function (resolve, reject) {
         //amqp.connect('amqp://localhost') //cloud url TODO
-        amqp.connect('amqp://' + process.env.PYTHON_HOST) //cloud url TODO
+        amqp.connect('amqp://' + Config.PYTHON_HOST) //cloud url TODO
             .then((conn) => {
                 return conn.createChannel();
             })
             .then((ch) => {
                 amqpPython.ch = ch;
                 winston.info("RMQ python connection established");
-                return amqpPython.ch.assertQueue(process.env.UUID + 'python_rsp', { durable: false });
+                return amqpPython.ch.assertQueue(Config.UUID + 'python_rsp', { durable: false });
 
             })
             .then((q) => {
@@ -73,7 +74,7 @@ export function algoTopsis(onReturnFunction) {
         }
         let noOfNeigh = neigh.Neighbors.getInstance().getActiveNeighborCount(); //getAllNeighbor().length;
         let jsonData: itf.i_python_req = {
-            type: "neighmsg" + ' E(' + process.env.IP_ADDR + ')',
+            type: "neighmsg" + ' E(' + Config.IP_ADDR + ')',
             payload: "mypayload",
             matrix: createArray(noOfNeigh),
             n_alternatives: 2 + noOfNeigh,

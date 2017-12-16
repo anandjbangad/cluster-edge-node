@@ -13,6 +13,7 @@ import { algoRoundRobin } from "./algo_round_robin"
 import { algoTopsis } from "./algo_topsis"
 //define array to store neighbors
 import MA = require('moving-average');
+import Config from "../../config";
 var ma = MA(5 * 1000); // 5sec
 let msgCountCloud = 1;
 let msgCountNeigh = 1;
@@ -41,7 +42,7 @@ export function offload(globalCtx) {
     message.ttl = message.ttl - 1;
     winston.silly("Message ttl is ", message.ttl);
     if (message.task_id == 1 || message.task_id == 3) {
-      message.payload = message.payload + ' E(' + process.env.IP_ADDR + ')';
+      message.payload = message.payload + ' E(' + Config.IP_ADDR + ')';
     }
     //ttl expired -> process locally
     if (message.ttl <= 0) {

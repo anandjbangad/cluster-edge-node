@@ -1,5 +1,6 @@
 import { config } from "dotenv";
 const path = require('path');
+import Config from "./config";
 // console.log(path.join(__dirname, '../.env'));
 // const replace = require('replace-in-file');
 // const options = {
@@ -32,16 +33,16 @@ import winston = require("winston")
 winston.remove(winston.transports.Console);
 winston.add(winston.transports.Console, {
   timestamp: true,
-  level: process.env.LOGGING_LVL, //{ error: 0, warn: 1, info: 2, verbose: 3, debug: 4, silly: 5 }
+  level: "info", //{ error: 0, warn: 1, info: 2, verbose: 3, debug: 4, silly: 5 }
   colorize: true
 });
-winston.info("Edge port is " + process.env.EDGE_PORT);
+winston.info("Edge port is " + Config.EDGE_PORT);
 //const easyMonitor = require("easy-monitor");
 //easyMonitor("edgeNode");
 
-if (!process.env.UUID) {
-  process.env.UUID = require("uuid/v4")();
-  winston.info("New UUID for edge is " + process.env.UUID);
+if (!Config.UUID) {
+  Config.UUID = require("uuid/v4")();
+  winston.info("New UUID for edge is " + Config.UUID);
 }
 
 import { cleandb } from "./storage.js";
@@ -60,8 +61,8 @@ import { edgeStartConsuming, establishRMBLocalConnection, startPublishingLocalTo
 
 const server = new Hapi.Server();
 server.connection({
-  host: process.env.REST_HOST,
-  port: process.env.REST_PORT
+  host: Config.REST_HOST,
+  port: Config.REST_PORT
 });
 
 import rest_service = require("./plugins/rest/service.js");
@@ -72,7 +73,8 @@ import rest_api = require('./plugins/rest/api.js');
 import vision_api = require('./plugins/vision/api.js');
 import vision_service = require("./plugins/vision/service.js");
 import neighbor_service = require("./neighbors.js");
-import { establishRMBCloudConnection, webSocketCloudConn, subscribeCloudTopics, cloudRMQRspQSetup } from "./ws/cloud_client.js"; //executing constructor
+import { establishRMBCloudConnection, webSocketCloudConn, subscribeCloudTopics, cloudRMQRspQSetup } from "./ws/cloud_client.js";
+ //executing constructor
 
 var globalCtx: any = {};
 

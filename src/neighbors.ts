@@ -6,6 +6,7 @@ import amqp = require('amqplib');
 import MA = require('moving-average');
 
 import winston = require("winston")
+import Config from "./config";
 
 export class gps {
     lat: Number;
@@ -54,7 +55,7 @@ export class Neighbor {
             })
             .then((q) => {
                 this.amqpNeigh.sendReqQ = q.queue;
-                return this.amqpNeigh.ch.assertQueue(process.env.UUID + '_neigh', { durable: false });
+                return this.amqpNeigh.ch.assertQueue(Config.UUID + '_neigh', { durable: false });
             })
             .then((q) => {
                 this.amqpNeigh.rspQ = q.queue;
@@ -181,7 +182,7 @@ export class Neighbors {
     checkNeighborsNow() {
         //ping each neighbor and update lastUpdate time
         this.neighbors.forEach(function (item, index, array) {
-            ping.promise.probe(this.ipAddr, { timeout: process.env.pingTimeout })
+            ping.promise.probe(this.ipAddr, { timeout: Config.pingTimeout })
                 .then(function (res) {
                     console.log(res);
                     //if res is unreachable call removeNeighbor(item)
@@ -199,7 +200,7 @@ export class Neighbors {
     public updateNeighborWs(ipAddr: string, neighws) {
         let neighbor = this.getNeighbor(ipAddr);
         if (neighbor !== null) {
-            neighbor.neighws = neighws;
+           // neighbor.neighws = neighws;
             //update last update time
         }
     }
@@ -211,7 +212,7 @@ export class Neighbors {
         return str;
     }
     startHeartbeat() {
-        setInterval(this.checkNeighborsNow, process.env.peerHeartbeatInterval);
+        setInterval(this.checkNeighborsNow, Config.peerHeartbeatInterval);
     }
 }
 /// <reference path="./ws/edge_server.ts" />

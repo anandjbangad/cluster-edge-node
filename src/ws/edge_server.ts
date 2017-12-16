@@ -6,6 +6,7 @@ import amqp = require('amqplib');
 import winston = require("winston")
 import MA = require('moving-average');
 import { startCharting } from "../charts/server"
+import Config from "../config";
 
 let reqCounter: number = 0;
 let rspCounter: number = 0;
@@ -134,7 +135,7 @@ export function startPublishingLocalTopics() {
     //ch.publish(ex, '', msg);
     amqpLocal.ch.publish(ex, '', new Buffer(JSON.stringify(msg)));
     winston.verbose("Local Topic Publish ", msg);
-  }, process.env.localTopicPublishPeriod);
+  }, Config.localTopicPublishPeriod);
 }
 interface NeighborNode {
   ipAddr: string;

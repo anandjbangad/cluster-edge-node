@@ -7,6 +7,7 @@ import amqp = require('amqplib');
 import MA = require('moving-average');
 import SA = require('simple-average');
 import winston = require("winston")
+import Config from "../config";
 
 let cloudTopicRsp: itf.cld_publish_topics = {
   cpu: 0,
@@ -36,7 +37,7 @@ export function getCldTopics(): itf.cld_publish_topics {
 let amqpCloud: any = {};
 export function establishRMBCloudConnection() {
   return new Promise(function (resolve, reject) {
-    amqp.connect('amqp://' + process.env.CLOUD_HOST) //cloud url TODO
+    amqp.connect('amqp://' + Config.CLOUD_HOST) //cloud url TODO
       .then((conn) => {
         return conn.createChannel();
       })
@@ -88,7 +89,7 @@ export function cloudRMQRspQSetup() {
         //   debug("trying to send to cld");
         //   globalCtx.amqpCloud.ch.sendToQueue("c_task1_req", Buffer.from("sidd"));
         // }, 400);
-        return amqpCloud.ch.assertQueue(process.env.UUID + '_cld', { durable: false });
+        return amqpCloud.ch.assertQueue(Config.UUID + '_cld', { durable: false });
       })
       .then((q) => {
         amqpCloud.rspQ = q.queue;
@@ -128,7 +129,7 @@ export function webSocketCloudConn() {
   return new Promise(function (resolve, reject) {
     //imported from core module
     try {
-      cloud_ws = new WebSocket("ws://" + process.env.CLOUD_HOST + ":" + process.env.CLOUD_PORT); //force new connection
+      cloud_ws = new WebSocket("ws://" + Config.CLOUD_HOST + ":" + Config.CLOUD_PORT); //force new connection
     } catch (e) {
       winston.error(e);
     }
@@ -142,8 +143,8 @@ export function webSocketCloudConn() {
       // os.setIpAddr(ipAddr);
       let json_message: itf.cld_edge_init = {
         type: "init",
-        uuid: process.env.UUID,
-        sessionID: process.env.sessionID
+        uuid: Config.UUID,
+        sessionID: Config.sessionID
       }
       cloud_ws.send(
         JSON.stringify(json_message)
@@ -175,12 +176,16 @@ export function webSocketCloudConn() {
       }
       winston.verbose("-->Msg Rcvd: " + data["type"]);
       switch (data["type"]) {
-        case "initDone":
+          case "initDone":
           var step;
           let services: string[] = [];
-          for (step = 1; step <= process.env.SERVICES_SUPPORT_COUNT; step++) {
-            services.push(eval("process.env.SERVICE_" + step));
-          }
+        //  for (step = 1; step <= Config.SERVICES_SUPPORT_COUNT; step++) {
+            console.log(process.env.SERVICE_1);
+            services.push(Config.SERVICE_1);
+            services.push(Config.SERVICE_2);
+              services.push(Config.SERVICE_3);
+              //services.push(eval("process.env.SERVICE_" + step));
+        //  }
           registerServices(services);
           break;
 
@@ -237,9 +242,9 @@ export function getNeighbours() {
     //send upto 5 neighbouring devices' uuid
     let json_message: itf.cld_edge_getNeighbors = {
       type: "getNeighbours",
-      uuid: process.env.UUID,
-      sessionID: process.env.sessionID,
-      count: process.env.neighborClusterCount
+      uuid: Config.UUID,
+      sessionID: Config.sessionID,
+      count: Config.neighborClusterCount
     };
     cloud_ws.send(
       JSON.stringify(json_message)
@@ -251,14 +256,14 @@ export function registerServices(services) {
     //register ~3 services
     let json_message: itf.cld_edge_services = {
       type: "services",
-      uuid: process.env.UUID,
-      sessionID: process.env.sessionID,
+      uuid: Config.UUID,
+      sessionID: Config.sessionID,
       services: services,
       gps: {
         // lat: Math.random() * 50 + 20,
         // lon: Math.random() * 50 + 20
-        lat: process.env.lat,
-        lon: process.env.lon
+        lat: Config.lat,
+        lon: Config.lon
       }
     }
     cloud_ws.send(

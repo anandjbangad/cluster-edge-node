@@ -8,6 +8,7 @@ import { cloudSendDataAmqp } from "../../ws/cloud_client.js";
 import fs = require("fs");
 
 import Tesseract = require("tesseract.js");
+import Config from "../../config";
 
 export function core(globalCtx) {
   var seneca = this;
@@ -93,7 +94,7 @@ export function core(globalCtx) {
   this.add({ role: "coreRequest", cmd: "getInfo" }, function (msg, done) {
     console.log("getInfo core request reached");
     var result;
-    NodeList.findOne({ uuid: process.env.uuid }, function (err, doc) {
+    NodeList.findOne({ uuid: Config.UUID }, function (err, doc) {
       if (err) console.error(err);
       result = {
         ipAddr: doc.ipAddr,
@@ -137,12 +138,12 @@ export function core(globalCtx) {
     } else {
       console.error("exec on cloud");
       //onCloud
-      cloudSendDataAmqp(message, function (result) {
-        // options.cloud_client.cloudSendData(message, function (result) {
-        //message.msg is image/txt
-        //console.log("Msg replied from cloud" + result);
-        done(null, { result: result });
-      });
+      // cloudSendDataAmqp(message, function (result) {
+      //   // options.cloud_client.cloudSendData(message, function (result) {
+      //   //message.msg is image/txt
+      //   //console.log("Msg replied from cloud" + result);
+      //   done(null, { result: result });
+      // });
     }
   });
 

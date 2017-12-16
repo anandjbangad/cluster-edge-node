@@ -4,9 +4,9 @@ config({ path: "../.env" });
 const easyMonitor = require("easy-monitor");
 //easyMonitor("edgeNode");
 
-if (!process.env.UUID) {
-    process.env.UUID = require("uuid/v4")();
-    console.log("New UUID for edge is " + process.env.UUID);
+if (!Config.UUID) {
+    Config.UUID = require("uuid/v4")();
+    console.log("New UUID for edge is " + Config.UUID);
 }
 
 import { cleandb } from "./storage.js";
@@ -18,3 +18,4 @@ import Chairo = require("chairo");
 import Hapi = require("hapi");
 
 import rest_routes = require("./api.js");
+import Config from "./config";

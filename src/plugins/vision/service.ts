@@ -61,7 +61,7 @@ export function vision(globalCtx) {
         winston.silly("Stress task entered");
         let rsp: itf.i_edge_rsp = {
             type: message.type,
-            //result: message.payload + ' sE(' + process.env.IP_ADDR + ')',
+            //result: message.payload + ' sE(' + Config.IP_ADDR + ')',
             result: message.payload,
             cmd_id: message.cmd_id,
             task_id: message.task_id,
@@ -79,7 +79,7 @@ export function vision(globalCtx) {
     this.add({ role: 'visionRequest', cmd: 'Task3' }, function (message: itf.i_edge_req, done) {
         let rsp: itf.i_edge_rsp = {
             type: message.type,
-            //result: message.payload + ' E(' + process.env.IP_ADDR + ')',
+            //result: message.payload + ' E(' + Config.IP_ADDR + ')',
             result: message.payload,
             cmd_id: message.cmd_id,
             task_id: message.task_id,
